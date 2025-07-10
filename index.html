@@ -362,15 +362,8 @@
                   <input class="form-control col-sm-auto trans" list="selectQE1" id="exampleDataList1"
                     placeholder="Escribe el motivo">
                   <datalist id="selectQE1">
-                    <option>CTO SATURADA</option>
-                    <option>FALTA DE APOYO PARA ACOMETIDA</option>
-                    <option>DISTANCIA EXCEDIDA (mas de 300 metros)</option>
                     <option>NO EXISTE RED FTTH</option>
-                    <option>NO SE PERMITE INGRESO AL EQUIPO</option>
                     <option>RECURSOS MAL APROVISIONADOS</option>
-                    <option>CRUCE DE VIA PRINCIPAL</option>
-                    <option>NO HAY RED SECUNDARIA</option>
-
                   </datalist>
 
                 </div>
@@ -460,7 +453,7 @@
           </div>
 
           <div class="modal-footer" id="footer">
-
+            <button class="btn trans btn-primary" type="button" data-bs-toggle="offcanvas" id="plan12" data-bs-target="#offcanvasWithBothOptions1" aria-controls="offcanvasWithBothOptions1">Plantillas</button>
             <button type="button" id="limpiar" class="btn btn-outline-danger">Limpiar</button>
             <button type="button" class="btn btn-secondary trans" data-bs-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary trans" id="CopiarT">Copiar</button>
@@ -480,9 +473,10 @@
 
 
           <div class="modal-footer" id="footer2">
+
             <button type="button" id="limpiar2" class="btn btn-outline-danger">Limpiar</button>
             <button type="button" class="btn btn-secondary trans" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary trans" id="CopiarP">Copiar</button>
+            <button type="button" class="btn btn-primary trans" id="CopiarT">Copiar</button>
           </div>
         </div>
       </div>
@@ -499,8 +493,8 @@
           <div class="accordion pt-3" id="accordionExample">
             <div class="accordion-item">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed" onclick="TextoPlantilla()" id="1"  type="button"
-                  data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false"
+                <button class="accordion-button collapsed"  onclick="TextoPlantilla()" id="1"  type="button"
+                  data-bs-toggle="collapse" data-bs-target="#collapseOne" 
                   aria-controls="collapseOne">
                   SALUDO Y DESPEDIDA
                 </button>
@@ -1841,6 +1835,106 @@
           </div>
         </div>
       </div>
+
+<div class="offcanvas offcanvas-start trans" tabindex="-1" id="offcanvasWithBothOptions1" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Plantillas</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" id="close1" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+
+    <h4>Direccion</h4>
+          <input type="text" id="diras" class="form-control mb-3" placeholder="Direccion o CTO Sugerida...">
+             <div class="accordion" id="accordionExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingOne">
+      <button class="accordion-button " type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        NO EXISTE RED
+      </button>
+    </h2>
+    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+                       <div class="col-10">
+                    <h4>NO EXISTE RED</h4>
+                    <p id="nohay">Se valida archivos HHPP, se evidencia que la dirección xxxx no cuenta con cobertura para la instalación
+                    </p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('nohay')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+      </div>
+    </div>
+    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample"> 
+      <div class="accordion-body">
+                       <div class="col-10">
+                    <h4>NO EXISTE RED (COMENTARIO TECNICO)</h4>
+                    <p id="COMENTAE">se valida orden suspendida en mas de 2 ocasiones se cancela con autorización de Supervisor se deja comentario de técnico 
+                    </p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('COMENTAE')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+      </div>
+    </div>
+
+    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+                       <div class="col-10">
+                    <h4>NO EXISTE RED (Orden anterior Cancelada)</h4>
+                    <p id="Orderd">se valida orden anterior xxxx cancelada con los mismos recursos
+                    </p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('Orderd')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+      </div>
+    </div>
+    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+                       <div class="col-10">
+                    <h4>NO EXISTE RED (Falta PC)</h4>
+                    <p id="DirEd">Se valida archivos HHPP, se evidencia que la dirección xxxx no cuenta con cobertura para la instalación ya que es necesario una PC interna se valida comentarios y soporte fotográfico del técnico
+                    </p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('DirEd')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+      </div>
+    </div>
+
+  </div>
+</div>       
+
+  </div>
+</div>
     </div>
 
 
