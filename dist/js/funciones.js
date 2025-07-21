@@ -27,7 +27,8 @@ function handleClick(evento) {
   } else if (evento.target.matches("#CopiarT")) {
     CopiarLLamada();
   } else if (evento.target.matches("#formatear")) {
-    direccion();
+       d = document.getElementById("direccion").value;
+       direccion(d);
   } else if (evento.target.matches("#imagen")) {
     subirImagen();
   } else if (evento.target.matches("#chat")) {
@@ -919,8 +920,8 @@ function alerta(text) {
 }
 
 
-function direccion() {
-  d = document.getElementById("direccion").value;
+function direccion(d) {
+
   d = d.replaceAll("|", " ").replace(/\s+/g, " ");
   let regex = /^[A-Z]{2} [0-9]+ [A-Za-z ]*[A-Z]{2} [0-9]+ [A-Za-z ]*/;
   let regex2 = /^\d+(?: [A-Za-z]{3} [A-Za-z0-9]+)?(?: [A-Za-z]{3} [A-Za-z0-9]+)?/;
@@ -1004,7 +1005,8 @@ function CopiarPlantilla(textoid) {
   const fra = document.getElementById("fra").value;
   const plan = document.getElementById("valpa").value;
   const servicio = document.getElementById("valdesv").value;
-    const comend = document.getElementById("diras").value
+  const comend = direccion(document.getElementById("diras").value)
+ 
 txt=""
   let aler;
   document.querySelector("#Motivo1").addEventListener("change", handleCambio)
@@ -1113,7 +1115,6 @@ txt=""
   
 // plantillas para agendador
   } else if (textoid == "COMENTAE") {
-
 document.getElementById("Mtecnico").value= `se valida orden suspendida en mas de 2 ocasiones, se cancela con autorización de Supervisor se deja comentario de técnico "${comend}"`;
 document.getElementById("exampleDataList1").value = "NO EXISTE RED FTTH"
 document.getElementById("close1").click();
