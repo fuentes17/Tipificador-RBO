@@ -29,6 +29,9 @@ function handleClick(evento) {
   } else if (evento.target.matches("#formatear")) {
        d = document.getElementById("direccion").value;
        direccion(d);
+       copiarYAlertar(d, "");
+       document.getElementById("direccion").value = ""
+
   } else if (evento.target.matches("#imagen")) {
     subirImagen();
   } else if (evento.target.matches("#chat")) {
@@ -942,9 +945,8 @@ function direccion(d) {
   }
 
 
-  copiarYAlertar(d, "");
-
-  document.getElementById("direccion").value = ""
+  
+return d
 }
 
 
@@ -1005,8 +1007,8 @@ function CopiarPlantilla(textoid) {
   const fra = document.getElementById("fra").value;
   const plan = document.getElementById("valpa").value;
   const servicio = document.getElementById("valdesv").value;
-  const comend = direccion(document.getElementById("diras").value)
- 
+   var comend = document.getElementById("diras").value
+  comend = direccion(comend)
 txt=""
   let aler;
   document.querySelector("#Motivo1").addEventListener("change", handleCambio)
