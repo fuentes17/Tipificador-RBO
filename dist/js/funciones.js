@@ -28,7 +28,7 @@ function handleClick(evento) {
     CopiarLLamada();
   } else if (evento.target.matches("#formatear")) {
        d = document.getElementById("direccion").value;
-       direccion(d);
+       d=direccion(d);
        copiarYAlertar(d, "");
        document.getElementById("direccion").value = ""
 
@@ -56,6 +56,7 @@ function handleClick(evento) {
 
 
 
+  
 
 
 
@@ -83,14 +84,6 @@ function handleCambio(e) {
   const cambiopla = document.getElementById("Campl").checked
 
 
-  if (["#FD"].some((selector) => e.target.matches(selector))) {
-    let p = document.getElementById("FD").checked;
-    if (p) {
-      toggleDisplay(["#Formato"], "block");
-    } else {
-      toggleDisplay(["#Formato"], "none");
-    }
-  }
 
 
          
@@ -244,28 +237,14 @@ if (tecn && Mot != "NO EXISTE RED FTTH") {
       "none"
     );
     handleMotivoChat(Mo1);
-  } else if (
-    ["#MotivPi1", "#exampleDataList2"].some((selector) =>
-      e.target.matches(selector)
-    )
-  ) {
-    const mq = document.getElementById("exampleDataList2").value;
-
-    if (mq === "DIRECCIÓN ERRADA") {
-      document.getElementById("dir").checked = true;
-      toggleDisplay(["#direco"], "block");
+  } 
+    let p = document.getElementById("FD").checked;
+    if (p) {
+      toggleDisplay(["#Formato"], "block");
     } else {
-      toggleDisplay(["#direco"], "none");
-      document.getElementById("dir").checked = false;
+      toggleDisplay(["#Formato"], "none");
     }
-
-    toggleDisplay(["#MotivPi", "#Formatod", "#footer2"], "block");
-    toggleDisplay(
-      ["#MoQuiebre1", "#Motiv1", "#Motiv", "#footer", "#footer1"],
-      "none"
-    );
-    handleMotivoPiloto(Mo2);
-  }
+  
 }
 
 function handleMotivoPiloto() {
@@ -603,15 +582,6 @@ function resetearFormulariosChat() {
 
   Formulario.reset();
   handleMotivoChat();
-}
-function resetearFormulariosPiloto() {
-
-  if (document.getElementById('divAdicional1')) {
-    divAdicional1.remove()
-  }
-
-  Formulario.reset();
-  handleMotivoPiloto();
 }
 
 function resetearFormularios() {
@@ -1117,28 +1087,33 @@ txt=""
   
 // plantillas para agendador
   } else if (textoid == "COMENTAE") {
+    document.getElementById("TEC").click();
 document.getElementById("Mtecnico").value= `se valida orden suspendida en mas de 2 ocasiones, se cancela con autorización de Supervisor se deja comentario de técnico "${comend}"`;
 document.getElementById("exampleDataList1").value = "NO EXISTE RED FTTH"
 document.getElementById("close1").click();
    document.getElementById("diras").value = ""; 
 }else if (textoid == "Orderd") {
-
+document.getElementById("TEC").click();
 document.getElementById("Mtecnico").value= `se valida orden anterior ${comend} cancelada con los mismos recursos`;
 document.getElementById("exampleDataList1").value = "NO EXISTE RED FTTH"
 document.getElementById("close1").click();
    document.getElementById("diras").value = ""; 
 }else if (textoid == "DirEd") {
-
+document.getElementById("TEC").click();
 document.getElementById("Mtecnico").value= `Se valida archivos HHPP, se evidencia que la dirección ${comend} no cuenta con cobertura para la instalación ya que es necesario una PC interna se valida comentarios y soporte fotográfico del técnico`;
 document.getElementById("exampleDataList1").value = "NO EXISTE RED FTTH"
 document.getElementById("close1").click();
    document.getElementById("diras").value = ""; 
 }else if (textoid == "nohay") {
+    document.getElementById("TEC").click();
 document.getElementById("Mtecnico").value= `Se valida archivos HHPP, se evidencia que la dirección ${comend} no cuenta con cobertura para la instalación`;
 document.getElementById("exampleDataList1").value = "NO EXISTE RED FTTH"
 document.getElementById("close1").click();
-   document.getElementById("diras").value = ""; 
-}else if (textoid == "DDRPIL") {
+   document.getElementById("diras").value = "";  
+
+
+}
+else if (textoid == "DDRPIL") {
 
     document.getElementById("Musuario").value = "Indica que la dirección correcta es xxxxx se solicita realizar GESTIÓN PILOTO COMPLEMENTO. Si no es posible la instalación por favor suspender la orden por el motivo correspondiente y evidenciar porque no es posible la instalación con el piloto.";
     document.getElementById("close").click();
