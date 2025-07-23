@@ -247,110 +247,12 @@ if (tecn && Mot != "NO EXISTE RED FTTH") {
   
 }
 
-function handleMotivoPiloto() {
-  setInnerHTML("#exampleModalLabel", "Tipificar Piloto")
-  setBackgroundColor("#1392F1");
-  setInnerHTML("#confdr", "Confirma direccion");
-  let Mo2 = document.getElementById("MotivPi1").value
 
-  toggleDisplay(["#footer", "#footer1", "#Motiv1", "#Motiv"], "none");
-  toggleDisplay(["#footer2", "#MoQuiebre", "#MotivPi", "#cambio"], "block");
-
-
-  switch (Mo2) {
-    case "1":
-      toggleDisplay(
-        ["#MoQuiebre2", "#MoQuiebre", "#Fecgaws", "#Formatod"],
-        "none"
-      );
-      toggleDisplay(
-        ["#Titular", "#Musuariod", "#TipoPredio"],
-        "block"
-      );
-      break;
-    case "2":
-      setBackgroundColor("#28A745");
-      toggleDisplay(
-        ["#MoQuiebre2", "#MoQuiebre", "#Fecgaws", "#Formatod"],
-        "none"
-      );
-      toggleDisplay(
-        ["#Titular", "#fecha", "#Musuariod", "#MotivPi", "#TipoPredio"],
-        "block"
-      );
-      break;
-    case "3":
-      setBackgroundColor("#FF0000");
-      toggleDisplay(
-        [
-          "#MoQuiebre2",
-          "#MoQuiebre",
-          "#fecha",
-          "#Fecgaws",
-          "#Formatod",
-          "#TipoPredio",
-        ],
-        "none"
-      );
-      toggleDisplay(
-        ["#Titular", "#Musuariod", "#MoQuiebre2", "#MotivPi"],
-        "block"
-      );
-      break;
-
-    case "4":
-      setBackgroundColor("rgb(255, 126, 5)");
-      toggleDisplay(
-        [
-          "#MoQuiebre2",
-          "#MoQuiebre",
-          "#fecha",
-          "#Formatod",
-          "#TipoPredio",
-          "#Musuariod",
-          "#Cdire",
-          "#Motiv1",
-          "#Motiv"
-        ],
-        "none"
-      );
-
-
-      setInnerHTML("#TC", "CONTESTA");
-
-      toggleDisplay(["#Titular", "#MotivPi", "#tec"], "block");
-      break;
-
-    default:
-      toggleDisplay(
-        [
-          "#MotivoTec",
-          "#Musuariod",
-          "#fecha",
-          "#MoQuiebre",
-          "#tec",
-          "#MoQuiebre1",
-          "#MoQuiebre2",
-          "#footer1",
-          "#Fecgaws",
-          "#intentos",
-          "#Formatod",
-          "#direco"
-        ],
-        "none"
-      );
-      toggleDisplay(
-        ["#Titular", "#Cdire", "#TipoPredio"],
-        "block"
-      );
-      break;
-  }
-}
 
 function handleMotivo() {
 
   toggleDisplay(
-    ["#footer1", "#footer2", "#MotivPi", "#Motiv1","#plan12"], "none");
+    ["#footer1", "#footer2", "#MotivPi", "#Motiv1","#plan12","#Formato"], "none");
   toggleDisplay(["#footer", "#Motiv",], "block");
 
   setInnerHTML("#exampleModalLabel", "Tipificar LLamadas")
@@ -436,7 +338,7 @@ function handleMotivoChat() {
   toggleDisplay(["#pld"], "none");
 
   setInnerHTML("#exampleModalLabel", "Tipificar Chat")
-  toggleDisplay(["#footer", "#footer2", "#Motiv", "#MotivPi"], "none");
+  toggleDisplay(["#footer", "#footer2", "#Motiv", "#MotivPi","#Formato"], "none");
   toggleDisplay(["#footer1", "#Motiv1"], "block");
   let Mo1 = document.getElementById("Motivo1").value
   setInnerHTML("#Musuario", "indica que");
@@ -1099,7 +1001,7 @@ document.getElementById("exampleDataList1").value = "NO EXISTE RED FTTH"
 document.getElementById("close1").click();
    document.getElementById("diras").value = ""; 
 }else if (textoid == "DirEd") {
-document.getElementById("TEC").click();
+  document.getElementById("TEC").click();
 document.getElementById("Mtecnico").value= `Se valida archivos HHPP, se evidencia que la dirección ${comend} no cuenta con cobertura para la instalación ya que es necesario una PC interna se valida comentarios y soporte fotográfico del técnico`;
 document.getElementById("exampleDataList1").value = "NO EXISTE RED FTTH"
 document.getElementById("close1").click();
@@ -2203,7 +2105,6 @@ function GuardarDatos(p) {
     if ((p == 1 && nombreAsesor) || p == 0 || p == 3) {
       const modalq = {
         1: handleMotivoChat,
-        3: handleMotivoPiloto,
         0: handleMotivo
       }
       localStorage.setItem("nombreAsesor", nombreAsesor);
