@@ -879,8 +879,7 @@ function CopiarPlantilla(textoid) {
   const fra = document.getElementById("fra").value;
   const plan = document.getElementById("valpa").value;
   const servicio = document.getElementById("valdesv").value;
-   var comend = document.getElementById("diras").value
-  comend = direccion(comend)
+
 txt=""
   let aler;
   document.querySelector("#Motivo1").addEventListener("change", handleCambio)
@@ -1192,31 +1191,6 @@ Fue un gusto atenderte, gracias por utilizar nuestro chat de Movistar. Ten en cu
   document.getElementById("btncheck1").checked = true;
   document.getElementById("btncheck2").checked = true;
 
-  if (document.getElementById("TEC").checked) {
-       document.getElementById("TEC").click();
-  }
-  if (textoid == "COMENTAE") {
- 
-document.getElementById("Mtecnico").value= `se valida orden suspendida en mas de 2 ocasiones, se cancela con autorización de Supervisor se deja comentario de técnico "${comend}"`;
-
-}else if (textoid == "Orderd") {
-
-document.getElementById("Mtecnico").value= `se valida orden anterior ${comend} cancelada con los mismos recursos`;
-
-}else if (textoid == "DirEd") {
-
-document.getElementById("Mtecnico").value= `Se valida archivos HHPP, se evidencia que la dirección ${comend} no cuenta con cobertura para la instalación ya que es necesario una PC interna se valida comentarios y soporte fotográfico del técnico`;
-
-}else if (textoid == "nohay") {
-document.getElementById("Mtecnico").value= `Se valida archivos HHPP, se evidencia que la dirección ${comend} no cuenta con cobertura para la instalación`;
-
-
-
-}
-
-document.getElementById("exampleDataList1").value = "NO EXISTE RED FTTH"
-document.getElementById("close1").click();
-document.getElementById("diras").value = "";  
 
   
   if (txt || aler) {
@@ -2186,3 +2160,30 @@ function formatoagend() {
 
 
 
+function plantillasqt(j) {
+   var comend = document.getElementById("diras").value
+  comend = direccion(comend)
+  if (document.getElementById("TEC").checked) {
+    document.getElementById("TEC").click();
+  }
+    if (j == "COMENTAE") {
+    
+document.getElementById("Mtecnico").value= `se valida orden suspendida en mas de 2 ocasiones, se cancela con autorización de Supervisor se deja comentario de técnico "${comend}"`;
+
+}else if (j == "Orderd") {
+
+document.getElementById("Mtecnico").value= `se valida orden anterior ${comend} cancelada con los mismos recursos`;
+
+}else if (j == "DirEd") {
+ 
+document.getElementById("Mtecnico").value= `Se valida archivos HHPP, se evidencia que la dirección ${comend} no cuenta con cobertura para la instalación ya que es necesario una PC interna se valida comentarios y soporte fotográfico del técnico`;
+
+}else if (j == "nohay") {
+    
+document.getElementById("Mtecnico").value= `Se valida archivos HHPP, se evidencia que la dirección ${comend} no cuenta con cobertura para la instalación`;
+
+}
+  document.getElementById("exampleDataList1").value = "NO EXISTE RED FTTH"
+document.getElementById("close1").click();
+   document.getElementById("diras").value = "";  
+}
