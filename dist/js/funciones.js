@@ -809,11 +809,23 @@ function direccion(d) {
   if (match1) {
     let final = match1.index + match1[0].length;
     final = d.substring(final);
-    let placa = final.match(regex2)
-    let parte1 = match1[0];
+     let placa = final.match(regex2)
+   let parte1 = match1[0];
+    if (placa && placa[0]) {
+   
+
+    
+
 
     let parte2 = placa[0]
     d = parte1.trim() + "-" + parte2.trim()
+    console.log("agrego porte 2")
+    } else {
+    console.log("agrego fianl")
+
+       d = parte1.trim() + "-" + final
+    }
+    
   }
 
 
@@ -1675,8 +1687,11 @@ function cloncel() {
 
 
 function formatearFecha(fecha) {
+  let fechaFormateada = ""
   if (fecha) {
     let fecha1 = new Date(fecha)
+     let diaActual = new Date()
+   let [anoac, meac, diaac] = [diaActual.getFullYear(),diaActual.getMonth() + 1,diaActual.getDate()]
 
     var Meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 
@@ -1689,14 +1704,21 @@ function formatearFecha(fecha) {
     let nombreMes = Meses[mes - 1]
 
     let nombreDia = Dia[fecha1.getDay()]
+ 
+  
 
-    var fechaFormateada = `${nombreDia}, ${dia} ${nombreMes} ${ano}`
+
+    if (ano == anoac && mes == meac && dia == diaac) {
+       fechaFormateada = `El dia de HOY `
+    }
+
+      fechaFormateada += `${nombreDia}, ${dia} de ${nombreMes} del ${ano}`
+    
+
+     
   } else {
     fechaFormateada = ""
   }
-
-
-
 
   return fechaFormateada;
 }
