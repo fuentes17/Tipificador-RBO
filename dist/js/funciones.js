@@ -812,18 +812,10 @@ function direccion(d) {
      let placa = final.match(regex2)
    let parte1 = match1[0];
     if (placa && placa[0]) {
-   
-
-    
-
-
     let parte2 = placa[0]
     d = parte1.trim() + "-" + parte2.trim()
-    console.log("agrego porte 2")
     } else {
-    console.log("agrego fianl")
-
-       d = parte1.trim() + "-" + final
+       d = parte1.trim() + final
     }
     
   }
