@@ -1,0 +1,2115 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tipificador</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="dist/css/stilos.css">
+</head>
+ 
+<body>
+
+  <div class="contenedor align-content-center justify-content-center pt-3">
+
+    <form>
+      <div class="row">
+        <div class="input-group">
+          <input type="text" class="form-control trans" id="NomAgent" placeholder="Nombre de Agente" required>
+          <input type="text" class="form-control trans" id="FirmaAgent" placeholder="Firma" required>
+
+        </div>
+      </div>
+
+      <div class="row form-group align-content-center pt-2 justify-content-center">
+        <div class="col-sm btn-group">
+
+          <div class="btn-group col-6">
+            <!-- Botón principal -->
+            <button type="button" class="btn btn-warning" id="Btip">Tipificar</button>
+
+            <!-- Botón de menú desplegable -->
+            <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <span class="visually-hidden">Toggle Dropdown</span>
+            </button>
+
+            <!-- Menú desplegable -->
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#" id="Tipificar" data-bs-toggle="modal"
+                  >llamada</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="#" id="chat" data-bs-toggle="modal"
+                   >chat</a></li>
+              </li>
+            </ul>
+          </div>
+
+          <button type="button" id="imagen" class="btn col-6 btn-primary">Cambiar Fondo</button>
+
+
+
+
+        </div>
+      </div>
+    </form>
+
+    <!-- Modal 1 -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content trans">
+          <div class="modal-header" id="color">
+            <h3 class="modal-title" id="exampleModalLabel" style="color: rgb(255, 255, 255);"></h3>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+          </div>
+          <div class="modal-body col-sm-auto">
+            <div class="row">
+
+              
+              <h5 class="col-sm-5 align-content-end" id="agendas" style="  color: rgba(255, 255, 255, 0.938);"></h5>
+<h5 class="col-sm-5 align-content-end" id="canceladas"  style="  color: rgb(245, 245, 245);"></h5>
+
+
+            <div class="col-sm-2">
+              <button type="button" class="btn btn-danger" onclick="formatoagend()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-trash-fill" viewBox="0 0 16 16">
+                  <path
+            d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+                </svg>
+              </button>
+            </div>
+
+            <h5 class="col-sm-10 text-center" id="total" style=" color: rgb(255, 255, 255);"></h5>
+              </div>
+
+
+            <form id="Formulario">
+
+
+              <div class="row">
+                <div id="Motiv" class="col-sm-10">
+                  <label class="my-1 mr-2" for="Motivo">Motivo de llamada</label>
+                  <select class="form-select my-1 mr-sm-2 trans" id="Motivo">
+                    <option selected value="0">...</option>
+                    <option value="1">Agendar</option>
+                    <option value="2">Quiebre</option>
+                    <option value="3">No Contacto</option>
+                    <option value="4">Agenda Tentativa</option>
+                  </select>
+                </div>
+
+    
+
+        
+                <div  id="Motiv1" class="col-sm-10">
+                  <label class="my-1 mr-2" for="Motivo">Motivo Chat</label>
+                  <select class="form-select my-1 mr-sm-2 trans" id="Motivo1">
+                    <option selected value="0">...</option>
+                    <option value="1">Agendar</option>
+                    <option value="2">Quiebre</option>
+                    <option value="4">Compromiso llamada</option>
+                    <option value="3">Agendada Fecha Inicial</option>
+
+
+                  </select>
+                </div>
+
+                <button type="button" id="cambio" class="btn cambio col-sm-2 btn-outline-warning"> 
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-right h" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5m14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5"/>
+                </svg></button>
+              </div>
+         
+              <div class="row pt-3">
+                <div class="col-sm" id="intentos">
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="inten">
+                    <label class="form-check-label" for="flexSwitchCheckChecked" id="inte">6 INTENTOS</label>
+                  </div>
+                </div>
+                <div class="col-sm" id="Cdire">
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="dir">
+                    <label class="form-check-label" id="confdr" for="flexSwitchCheckChecked"></label>
+                  </div>
+                </div>
+                <div class="col-sm" id="Formatod">
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="FD">
+                    <label class="form-check-label" for="FD" id="f">Formatear Dirección</label>
+                  </div>
+                </div>
+
+                <div  id="AgIncu" class="col-sm-7">
+                    <label for="Incumplimiento">Incumplimiento Cliente\Contratista</label>
+                  <select class="form-select my-1 mr-sm-2 trans" id="incu">
+                    <option value="1">No Hubo Incumplimiento</option>
+                    <option value="RESCATEBO_Incumplimiento_Cliente ">Incumplimieto Cliente</option>
+                    <option value="RESCATEBO_Incumplimiento_Contratista ">Incumplimiento Contratista</option>
+                  </select>
+                </div>
+                <div class="col-sm" id="tec">
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="TEC">
+                    <label class="form-check-label trans" id="TC" for="TEC"></label>
+                  </div>
+                </div>
+
+
+              </div>
+
+              <div class="row pt-2">
+
+         
+              <div class="col-sm " id="MotivoTec">
+                  <label for="Mtecnico">Motivo Técnico</label>
+                  <div class="form-group">
+
+                    <textarea class="form-control trans" id="Mtecnico"></textarea>
+                  </div>
+                </div>
+                <div class="col-sm" id="Musuariod">
+                  <label for="Musuario">Motivo Usuario</label>
+                  <div class="form-group">
+                    <textarea class="form-control trans" id="Musuario"></textarea>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="row pt-2" id="Titular">
+                <label for="NumTitular">Numero de Titular</label>
+                <div class="d-flex align-items-center" id="numt">
+
+
+                  <input type="text" class="form-control me-2 trans" id="NumTitular" autocomplete="off" required>
+                  <button type="button" class="btn btn-success" onclick="cloncel()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-plus-circle" viewBox="0 0 16 16">
+                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                      <path
+                        d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                    </svg>
+                  </button>
+
+                </div>
+                <div class="col-sm-10 input-group" id="numt1"></div>
+
+                <div class="col-sm pt-2" id="nomt">
+                  <label for="NomTitular">Nombre de Titular</label>
+                  <input type="text" class="form-control trans" id="NomTitular" autocomplete="off" required>
+                </div>
+              </div>
+
+
+              <div class="row pt-2">
+                <div class="col-sm" id="fecha">
+                  <label for="Fecha" class="form-label trans">Fecha Agendamiento</label>
+                  <div class="input-group">
+                    <input type="date" class="form-control trans" id="Fecha" aria-label="Fecha Agendamiento">
+                    <select class="form-select  trans" id="Franja">
+                      <option value="AM: 7:00 a.m. - 12:00 p.m.">AM</option>
+                      <option value="PM: 12:00 p.m. - 4:00 p.m.">PM (CONJUNTOS)</option>
+                      <option value="PM: 12:00 p.m. - 7:00 p.m.">PM</option>
+                    </select>
+                    <button type="button" id="button-addon1" class="btn  btn-warning">Pedir Cuota</button>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="row" id="MoQuiebre">
+                <div class="col-sm">
+                  <label for="exampleDataList">Motivo Quiebre</label>
+                  <input class="form-control col-sm-auto trans" list="selectQE" id="exampleDataList"
+                    placeholder="Escribe el motivo">
+                  <datalist id="selectQE">
+                    <option>IMPOSIBLE INSTALACION ZONA PROBLEMAS EN ORDEN PUBLICO</option>
+                    <option>CAMBIO PLAN POR DECISION DEL CLIENTE</option>
+                    <option>CLIENTE DESEA EL PRODUCTO PERO EN UNA FECHA POSTERIOR</option>
+                    <option>CLIENTE DESISTE DEL SERVICIO / ELIGE LA COMPETENCIA</option>
+                    <option>CLIENTE DESISTE DEL SERVICIO / DEMORAS EN LA INSTALACIÓN</option>
+                    <option>CLIENTE DESISTE DEL SERVICIO / SITUACIÓN ECONOMICA</option>
+                    <option>CLIENTE NO SOLICITO EL SERVICIO</option>
+                    <option>CONDICIONES DE PREDIO NO APTAS PARA LA INSTALACIÓN</option>
+                    <option>DESEA SERVICIO EN OTRA LINEA</option>
+                    <option>INCUMPLIMIENTO CITA ATRIBUIBLE AL CLIENTE</option>
+                    <option>LINEA SUSPENDIDA O EN MORA</option>
+                    <option>CLIENTE NO RESIDE EN PREDIO DE INSTALACIÓN</option>
+                    <option>PROBLEMAS PC CLIENTE</option>
+                    <option>SIN PERMISOS PARA INSTALAR</option>
+                    <option>YA TIENE SERVICIO MOVISTAR INSTALADO</option>
+                    <option>NO SE LOGRO CONTACTO PARA AGENDAR</option>
+                    <option>DIRECCIÓN ERRADA</option>
+                    <option>LOCALIDAD ERRADA</option>
+                    <option>CLIENTE DESISTE DEL SERVICIO POR RECLAMO NO SOLUCIONADO</option>
+                    <option>CLIENTE DESISTE DEL SERVICIO / INCONFORMIDAD TARIFAS</option>
+                    <option>CLIENTE DESEA TRASLADO EN UNA FECHA POSTERIOR</option>
+                    <option>CLIENTE SOLICITO TRASLADO DE OTRO PRODUCTO</option>
+                    <option>CLIENTE DESISTE DEL TRASLADO, SOLICITA RETIRO</option>
+                    <option>CLIENTE DESISTE DEL TRASLADO, CONTINUA CON SERVICIO ACTUAL</option>
+                    <option>CLIENTE SOLICITO OPERACIÓN COMERCIAL DIFERENTE</option>
+                    <option>CLIENTE NO SOLICITO TRASLADO</option>
+                    <option>PEDIDO DUPLICADO</option>
+                    <option>DATOS DEL CLIENTE ERRADOS</option>
+                    <option>CLIENTE DESISTE / INCONSISTENCIA EN LA OFERTA</option>
+                    <option>CLIENTE SIN CAPACIDAD DE ENDEUDAMIENTO</option>
+                    <option>CLIENTE SOLICITO OTRO TIPO DE EQUIPO</option>
+                    <option>CLIENTE YA ADQUIRIDO EQUIPO</option>
+                    <option>CLIENTE RECHAZA COBRO DE INSTALACIÓN</option>
+                    <option>TV NO APTO PARA HD</option>
+                    <option>SIN DISPONIBILIDAD DE EQUIPOS</option>
+                    <option>CLIENTE SOLICITO OTRO TIPO DE EQUIPO</option>
+                    <option>DIRECCIÓN SIN COMPLEMENTOS</option>
+                    <option>PLAN ERRADO CLIENTE SOLICITO MAS DECOS</option>
+                    <option>PLAN ERRADO CLIENTE SOLICITO MENOS DECOS</option>
+                    <option>PLAN ERRADO OFERTA PRIMARIA</option>
+                    <option>PLAN ERRADO CLIENTE SOLICITO TRASLADO</option>
+                    <option>PLAN ERRADO OFERTA SUPLEMENTARIA</option>
+                    <option>ERROR EN COMPLEMENTO</option>
+                    <option>VIA PRINCIPAL ERRADA</option>
+                    <option>NO EXISTE RED FTTH</option>
+                    <option>CRUCE ERRADO</option>
+                    <option>CLIENTE DESISTE DEL SERVICIO / RETENIDO POR OTRO OPERADOR</option>
+                    <option>PLAN ERRADO VELOCIDAD BA</option>
+                    <option>CLIENTE DESISTE DEL SERVICIO POR DECISION PROPIA</option>
+                    <option>RECURSOS MAL APROVISIONADOS</option>
+                  </datalist>
+
+                </div>
+              </div>
+
+
+
+              <div class="row" id="MoQuiebre1">
+                <div class="col-sm">
+                  <label for="exampleDataList">Motivo Quiebre</label>
+                  <input class="form-control col-sm-auto trans" list="selectQE1" id="exampleDataList1"
+                    placeholder="Escribe el motivo">
+                  <datalist id="selectQE1">
+                    <option>NO EXISTE RED FTTH</option>
+                    <option>RECURSOS MAL APROVISIONADOS</option>
+                  </datalist>
+
+                </div>
+              </div>
+              <div class="row pt-2">
+                <div class="  input-group" id="Formato">
+                  <label for="Fecha" class="form-label trans ">Formatear Dirección</label>
+                  <div class="input-group mb-3">
+                    <input type="text" class="form-control trans" id="direccion">
+                    <button type="button" id="formatear" class="btn btn1 btn-warning ">Formatear</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row pt-2" id="direco">
+                <div class="input-group">
+                  <label for="Fecha" class="form-label trans ">Dirección</label>
+                  <div class="input-group mb-3">
+                    <input type="text" class="form-control trans" id="direccion1">
+                  </div>
+                </div>
+                <div class="  input-group">
+                  <label for="barrio" class="form-label trans ">Barrio</label>
+                  <div class="input-group mb-3">
+                    <input type="text" class="form-control trans" id="Barrio">
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="row pt-1" id="TipoPredio">
+                <label for="barrio" class="form-label trans ">Tipo De Predio</label>
+
+                <div class="input-group col-sm-4">
+
+                  <select class="form-select trans" aria-placeholder="Tipo De Predio" id="predio">
+                    <option>Tipo de Predio</option>
+                    <option>CASA</option>
+                    <option>CONJUNTO(torres)</option>
+                    <option>CONJUNTO(casas)</option>
+                    <option>EDIFICIO</option>
+                    <option>LOCAL</option>
+                    <option>NO CONFIRMA</option>
+                  </select>
+
+
+
+
+                  <select class="form-select  trans" id="Cantpi">
+                    <option>Cant Pisos</option>
+
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>Mas de 6</option>
+                    <option>NO CONFIRMA</option>
+                  </select>
+
+                  <select class="form-select  trans" id="Cantco">
+                    <option>Cant Contadores</option>
+                    <option>Compartidos</option>
+                    <option>Individuales</option>
+                    <option>NO CONFIRMA</option>
+                  </select>
+                </div>
+              </div>
+
+
+
+              <div class="row" id="Fecgaws">
+                <div class="col-sm">
+
+
+                  <label for="Fecha2" class="form-label trans ">Compromiso de llamada</label>
+                  <input type="datetime-local" class="form-control trans" id="Fecha2" aria-label="Fecha Agendamiento">
+
+                </div>
+              </div>
+
+            </form>
+          </div>
+
+          <div class="modal-footer" id="footer">
+            <button class="btn trans btn-primary" type="button" data-bs-toggle="offcanvas" id="plan12" data-bs-target="#offcanvasWithBothOptions1" aria-controls="offcanvasWithBothOptions1">Plantillas</button>
+            <button type="button" id="limpiar" class="btn btn-outline-danger">Limpiar</button>
+            <button type="button" class="btn btn-secondary trans" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary trans" id="CopiarT">Copiar</button>
+          </div>
+          <div class="modal-footer" id="footer1">
+            <!-- offcanvas -->
+
+
+            <button class="btn trans btn-primary" type="button" data-bs-toggle="offcanvas"
+              data-bs-target="#offcanvasWithBothOptions" onclick="TextoPlantilla()" aria-controls="offcanvasWithBothOptions">Plantillas</button>
+
+
+            <button type="button" id="limpiar1" class="btn btn-outline-danger">Limpiar</button>
+            <button type="button" class="btn btn-secondary trans" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary trans" id="CopiarT1">Copiar</button>
+          </div>
+
+
+          <div class="modal-footer" id="footer2">
+
+            <button type="button" id="limpiar2" class="btn btn-outline-danger">Limpiar</button>
+            <button type="button" class="btn btn-secondary trans" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary trans" id="CopiarT">Copiar</button>
+          </div>
+        </div>
+      </div>
+      <div class="offcanvas trans offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
+        aria-labelledby="offcanvasWithBothOptionsLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Plantillas</h5>
+          <button type="button" class="btn-close" id="close" data-bs-dismiss="offcanvas"  aria-label="Close"></button>
+        </div>
+
+        <div class="offcanvas-body" >
+          <h4>Buscar</h4>
+          <input type="text" id="buscador" class="form-control mb-3" placeholder="Buscar...">
+          <div class="accordion pt-3" id="accordionExample">
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed"  onclick="TextoPlantilla()" id="1"  type="button"
+                  data-bs-toggle="collapse" data-bs-target="#collapseOne" 
+                  aria-controls="collapseOne">
+                  SALUDO Y DESPEDIDA
+                </button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+
+
+                <div class=" row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Saludo</h4>
+                    <p id="saludo"></p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('saludo')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class=" row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Despedida</h4>
+                    <p id="despedida"></p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('despedida')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+
+              <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class=" row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Despedida con agenda (no contesta)</h4>
+                    <p id="despedidaagenda">
+
+
+                      Lamentamos no haber podido continuar la validación mediante este chat, la orden sigue programada
+                      para el día
+
+                      📅<input type="date" id="fe1" class="form-control col-md-1"> En la Franja
+                      <select class="form-select" id="fra">
+                        <option value="AM: 7:00 a.m. - 12:00 p.m.">AM</option>
+                        <option value="PM: 12:00 p.m. - 4:00 p.m.">PM (CONJUNTOS)</option>
+                        <option value="PM: 12:00 p.m. - 7:00 p.m.">PM</option>
+                      </select>
+                      ✅Gracias por utilizar nuestro chat de Movistar. Ten en cuenta que para cualquier duda te puedes
+                      comunicar a la línea nacional 018000911008 o al chat de WhatsApp 3152333333. Recuerda que te
+                      atendió XXXXX. Que tengas un excelente día. 👋
+
+
+                    </p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('despedidaagenda')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+
+              <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class=" row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Despedida se Deja orden Pendiente se programa LLAMADA (no contesta)</h4>
+                    <p id="despedidasinr">
+                    </p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('despedidasinr')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class=" row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Despedida (Orden Diferente a SUSPENDIDA)</h4>
+                    <p id="despDife">En este momento tu orden esta siendo gestionada por lo tanto debes estar muy atento de su telefono por lo que podra recibir una llamada telefonica o un chat via whatsapp para continuar con su proceso y atender su solicitud.</p>
+
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('despDife')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header ">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  NO SOLICITO EL SERVICIO
+                </button>
+              </h2>
+              <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Confirmar Titular</h4>
+                    <p id="ct">Hablo con Sr(a): ?</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('ct')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Motivo Cancelación</h4>
+                    <p id="Moc">Sr(a) Por favor me indica ¿el Motivo para declinar el Servicio?</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('Moc')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+
+              <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Confirmar Datos para cancelar</h4>
+                    <p id="ctc">Para poder avanzar con el trámite de cancelación y por motivos de seguridad 🔒, necesitamos validar algunos datos del titular del servicio. Por favor, confírmanos:<br>
+🪪 Número de identificación (CC)
+
+🧑‍💼 Nombre completo del titular
+
+📍 Dirección exacta
+
+🏘️ Barrio donde se iba a realizar la instalación<br>
+Con esta información podremos continuar con el proceso. ¡Gracias por tu colaboración! 🙌</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('ctc')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Confirmación Cancelar Servicio</h4>
+                    <p id="c">¡Gracias por tu tiempo! 😊 Lamentamos que en esta ocasión no puedas disfrutar de los servicios de Movistar. Hemos procedido con la cancelación de tu solicitud 🗂️.
+
+Si deseas continuar con el proceso, puedes reingresar tu pedido contactando a:
+
+⦁ 👨‍💻 con tu asesor comercial de confianza
+⦁ ☎️ Línea nacional: 018000911008 
+⦁ 💬 WhatsApp 3152333333, opción 4 – Ventas 
+⦁ 🏢 O visitando un Centro de Experiencia Movistar
+
+Esperamos poder contar contigo en el futuro y ofrecerte una experiencia que se ajuste a tus necesidades 🙌. ¡Estaremos encantados de recibirte cuando lo desees!</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('c')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Cancelar (no vuelve a responder, no valida datos)</h4>
+                    <p id="Noval12">Lamentamos no haber podido resolver el inconveniente ni llegar a un acuerdo para realizar la instalación 🛠️.
+
+Procedemos a cancelar tu solicitud 🗂️.
+Esperamos poder contar contigo en el futuro y ofrecerte una mejor experiencia 🙌. ¡Gracias por tu interés en Movistar!.</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('Noval12')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>No se valida datos</h4>
+                    <p id="Noval">Lamentamos informarte que no podemos continuar con el proceso, ya que no fue posible validar la identidad del titular 🪪.
+
+Por esta razón, la orden de instalación ha sido cancelada ❌.
+
+Si deseas continuar con el proceso, puedes reingresar tu pedido contactando a:
+
+⦁ 👨‍💻 con tu asesor comercial de confianza
+⦁ ☎️ Línea nacional: 018000911008 
+⦁ 💬 WhatsApp 3152333333, opción 4 – Ventas 
+⦁ 🏢 O visitando un Centro de Experiencia Movistar
+
+Esperamos poder ayudarte en el futuro y brindarte una mejor experiencia. ¡Gracias por tu interés en Movistar! 🙌</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('Noval')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+              <div class="accordion-item">
+              <h2 class="accordion-header ">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseTwo1" aria-expanded="false" aria-controls="collapseTwo">
+                  SI SOLICITO EL SERVICIO (Boton equibocado)
+                </button>
+              </h2>
+              <div id="collapseTwo1" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>CONFIRMAR INFORMACION (si solicito el servicio)</h4>
+                    <p id="CFMIEA">Para continuar con la instalación y asegurarnos de que todo esté en orden, necesitamos validar algunos datos del servicio.
+
+Por favor, confírmanos:
+
+🪪 Número de identificación (CC)
+
+📍 Dirección exacta
+
+🏘️ Barrio donde se realizará la instalación
+
+Con esta información podremos avanzar con el proceso. ¡Gracias por tu colaboración! 🙌</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('CFMIEA')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div id="collapseTwo1" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>DATOS CONFIRMADOS (si solicito el servicio)</h4>
+                    <p id="COMFURA">Hemos identificado que los datos registrados en el sistema coinciden con la información que nos compartiste ✅.
+
+Ahora procederemos a validar los detalles de la oferta 📦 para asegurarnos de que todo esté correcto✅.
+En breve te compartiremos la información correspondiente.</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('COMFURA')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
+                  CONTESTA UN TERCERO
+                </button>
+              </h2>
+              <div id="collapseTen" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>CONFIRMAR PARENTEZCO</h4>
+                    <p id="ConfPar">comprendo, para dejar la informacion que me indicas necesito confirmar dos cosas:
+
+⦁	🧑‍💼 Tu nombre completo
+⦁	👥 Si conoces al titular del servicio o tienes contacto directo con él
+
+En caso de que no lo conozcas, cancelaremos la orden, ya que hubo un error al registrar la información ❌. 
+
+Gracias por tu tiempo y disposición 🙌</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('ConfPar')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+ <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>CANCELAR SERVICIO(no conoce al titular)</h4>
+                    <p id="nocont">Gracias por tu respuesta. Como no conoces al titular del servicio, no podemos continuar con el proceso.
+
+Vamos a cancelar la solicitud ❌ y dejaremos registrada la información en el sistema indicando que hubo un error al momento de asignar los datos 🗂️.
+
+Lamentamos cualquier molestia que esto pueda causar y agradecemos tu tiempo 🙏. 
+
+¡Esperamos poder ayudarte en otra ocasión!</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('nocont')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>CONFIRMAR DATOS DEL TITULAR</h4>
+                    <p id="Conftt3">Para poder proceder con el trámite y por temas de seguridad; te agradezco por favor confirmarme los siguientes datos del Titular. Numero de Identificación CC y Nombre Completo del Titular.</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('Conftt3')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>SOLICITAR TELEFONO DEL TITULAR</h4>
+                    <p id="Solictel">Me indica un Tel Contacto adicional del Titular o un familiar quien pueda validar la información por favor.</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('Solictel')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                  CONFIRMACION DE CC
+                </button>
+              </h2>
+              <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Confirmar Titular</h4>
+                    <p id="ct">Hablo con Sr(a): ?</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('ct')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+
+                <div class=" row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Confirmacion CC</h4>
+                    <p id="confic">Por favor podrías confirmar la cedula ¿CC?.</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('confic')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class=" row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Confirmacion CC correcta</h4>
+                    <p id="confircor">¡Perfecto! 😊 Ya confirmamos que la cédula registrada coincide con la que nos compartiste ✅.
+
+Ahora, para continuar con la validación de la instalación, ¿podrías confirmarnos por favor los siguientes datos?
+
+📍 Dirección exacta
+
+🏘️ Barrio donde se realizará el servicio
+
+Con esta información seguimos adelante.
+
+¡Gracias por tu colaboración! 🙌</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('confircor')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class=" row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Cancelar Servicio Por Validacion CC</h4>
+                    <p id="cancpoc">Lamentablemente, la cédula que tenemos registrada en el sistema no coincide con la que has intentado validar en tres ocasiones 🪪.
+
+Por esta razón, procederemos a cancelar la orden ❌.
+Si deseas continuar con el proceso, puedes reingresar tu pedido contactando a:
+
+⦁ 👨‍💻 con tu asesor comercial de confianza
+⦁ ☎️ Línea nacional: 018000911008 
+⦁ 💬 WhatsApp 3152333333, opción 4 – Ventas 
+⦁ 🏢 O visitando un Centro de Experiencia Movistar
+
+Gracias por tu tiempo y comprensión 🙏. ¡Esperamos poder ayudarte pronto</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('cancpoc')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapsefor" aria-expanded="false" aria-controls="collapsefor">
+                  VALIDACIÓN DE DIRECCIÓN
+                </button>
+              </h2>
+              <div id="collapsefor" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Confirmación Dirección</h4>
+                    <p id="confiD">Veo que la novedad que estás reportando corresponde a la dirección del servicio 📍.<br>
+te agradecería que lo verifiques nuevamente usando un recibo público (agua, luz o gas) 🧾, para asegurarnos de que todo esté correcto antes de continuar con el proceso.<br>
+¡Estaré pendiente de tu respuesta para continuar con el proceso!</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('confiD')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Dirección Correcta</h4>
+                    <p id="confirDir">¡Perfecto! 😊 
+
+Hemos confirmado que la dirección registrada en el sistema coincide con la que nos compartiste 📍✅.
+
+Ahora procederemos a validar los datos de la oferta 📦 para asegurarnos de que todo esté correcto y continuar con el proceso sin inconvenientes.</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('confirDir')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Dirección Piloto</h4>
+                    <p id="direb">Podemos hacer la instalación, ya que el complemento de la dirección no impide la instalación del servicio 🛠️.
+
+Solo necesitas mostrarle al técnico un recibo de servicio público 🧾 con el complemento correcto (torre, apto, interior, etc.).
+
+Después de la instalación, actualizaremos esa información en el sistema ✅.
+
+ahora revisaremos si la oferta es correcta</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('direb')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Inconsistencia direccion (enviar a terreno)</h4>
+                    <p id="incodireww">correcto en este caso lo que haremos a continuación es enviar al técnico para que este valide el servicio de acuerdo al recibo público por favor  proporcionarle el recibo público al técnico en el momento de la instalación, Ahora Procederemos a validar los datos de la oferta
+                    </p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('incodireww')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+  
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Dirección Incorrecta</h4>
+                    <p id="direinc">
+                      Dirección Agendador:
+                      <input type="text" class="form-control" id="diragen">
+                      Dirección Titular:
+                      <input type="text" class="form-control" id="dirtt">
+                        TIPO DE ACCION
+                      <select class="form-select" id="DIRAGQU">
+                        <option></option>
+                        <option>AGENDAR (piloto)</option>
+                        <option>CANCELAR</option>
+                      </select>
+                      ERROR DE DIRECCION
+                      <select class="form-select" id="direrr">
+                        <option></option>
+                        <option>Total Dirección errada</option>
+                        <option>Via Principal</option>
+                        <option>Cruce</option>
+                        <option>Placa</option>
+                        <option>Complemento</option>
+                      </select>
+                    </p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('direinc')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapsefive" aria-expanded="false" aria-controls="collapsefive">
+                  VALIDACIÓN DEL PLAN
+                </button>
+              </h2>
+
+
+
+              <div id="collapsefive" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div  class="row accordion-body d-flex justify-content-between align-items-center">
+                  
+                  
+                  <h4>VALIDAR PLAN</h4>
+                 
+                    <div class="col-10">
+                      <p  id="valplan">
+                        <textarea class="form-control" id="valpa"></textarea>
+                      </p>
+                    </div>
+                      <div class="col-2">
+                        <button type="button" class="btn btn-success" onclick="confirmarw()">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-plus-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                            <path
+                              d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                          </svg>
+                        </button>
+                      </div>                   
+
+                   
+                </div>
+
+          
+
+           
+
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Plan Correcto</h4>
+                    <p id="planCo">Hemos identificado que la oferta registrada en el sistema coincide con la que nos estás informando.<br><br><br>Antes de continuar con la gestión, haremos una rápida validación sobre cómo está conformado tu domicilio...<br><br>Por favor me podrías confirmar si el tipo de predio es: <br><br>●  Una casa de barrio 🏠<br>●  Un conjunto residencial 🏘️<br>● Un edificio 🏬<br>●  Un centro comercial 🏢<br><br> Y a su vez...<br><br> * ¿Cuántos pisos tiene? <br> * ¿los servicios son compartidos o cada piso maneja servicios individuales?</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('planCo')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Plan Incorrecto Cancelar</h4>
+                    <p id="Planin">Lamentamos informarte que es necesario corregir la oferta registrada en la solicitud, por lo tanto, la orden de instalación será cancelada ❌.
+
+Si deseas continuar con el proceso, puedes reingresar tu pedido contactando a:
+
+⦁ 👨‍💻 con tu asesor comercial de confianza
+⦁ ☎️ Línea nacional: 018000911008 
+⦁ 💬 WhatsApp 3152333333, opción 4 – Ventas 
+⦁ 🏢 O visitando un Centro de Experiencia Movistar</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('Planin')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Objeccion Plan 900 Megas</h4>
+                    <p id="planCo900">Comprendo lo que sucede es que actualmente movistar actualizo las ofertas y ya no se están ofreciendo 900 megas solo se estan ofreciendo 500 megas en todos los planes sin embargo recuerde que se le mantendrá el mismo valor del servicio que le ofreció el asesor comercial me confirmas si aceptas el servicio descrito por favor                    </p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('planCo900')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>objeción Plan incorrecto</h4>
+                    <p id="objpi">El servicio que estás solicitando no está incluido en el plan actual, pero puedes activarlo después de la instalación llamando al área comercial 📞 018000911008. Esto te permitirá empezar a disfrutar del servicio desde ya 🛠️.
+
+Por ahora, ¿aceptas continuar con el servicio actual para que podamos realizar la instalación? Una vez esté activo, podrás gestionar la aplicación que necesitas sin inconvenientes 🙌.</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('objpi')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Pregunta de Precios</h4>
+                    <p id="PrP">El servicio se activará con los precios y beneficios que te indicó tu asesor comercial 💸.
+
+Si deseas más información sobre tu oferta, puedes comunicarte a: 
+
+⦁	📞 018000911008 
+⦁	💬 WhatsApp 3152333333 (opción 4 – Ventas) 
+⦁	🏢 O visitar un Centro de Experiencia Movistar
+
+Por favor, confírmame si deseas continuar con esta oferta 👍, o si prefieres que hablemos más adelante para tomar tu decisión ⏳.</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('PrP')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapsesix" aria-expanded="false" aria-controls="collapsesix">
+                  VALIDACIÓN DE OFERTA MAS DECOS
+                </button>
+              </h2>
+              <div id="collapsesix" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>objeción decos</h4>
+                    <p id="andecos">Notamos que estás solicitando xxxxx decos, pero en el sistema figura que contrataste xxxx.
+
+Te informamos que Movistar incluye 1 deco dentro del plan, y cada deco adicional tiene un costo de $15.500, el cual se verá reflejado en tu factura mensual 💳📄.
+
+¿Estás de acuerdo en que se agreguen los decos adicionales a tu oferta para continuar con el proceso? 👍</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('andecos')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Confirmación añadir deco</h4>
+                    <p id="anade">¡Perfecto! 😊
+Vamos a agregar el deco adicional que nos estás solicitando. Te confirmamos que su valor es de $15.500, el cual se reflejará en tu factura mensual 💳📄.
+
+Ahora procederemos a validar la disponibilidad de agenda en el sistema para programar la instalación 📅🛠️.
+
+Antes de continuar con la gestión, haremos una rápida validación sobre cómo está conformado tu domicilio...
+
+Por favor me podrías confirmar si el tipo de predio es:
+
+● Una casa de barrio 🏠
+● Un conjunto residencial 🏘️
+● Un edificio 🏬
+● Un centro comercial 🏢
+
+Además: 
+📏 ¿Cuántos pisos tiene el predio? 
+⚡ ¿Cuenta con un solo contador de energía para todo el lugar o son contadores individuales?</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('anade')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Objeción Falta Decos</h4>
+                    <p id="ongddecos">Recuerda que además del deco, el servicio incluye la app Movistar TV con 74 canales, que puedes usar en tu Smart TV, celular, tablet o computador 📱💻📺.
+
+Si lo prefieres, también puedo agregar el deco adicional por $15.500, y ese valor se verá reflejado en tu factura mensual 💰🧾.
+
+Por favor, confírmame si deseas continuar solo con la app, o si prefieres que agreguemos el deco adicional 👍. ¡Estoy aquí para ayudarte! </p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('ongddecos')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>no añadir decos</h4>
+                    <p id="noana">Gracias por tu confirmación. Según lo informado, mantendremos los decos contratados en la oferta inicial, sin realizar modificaciones 📦.
+
+Ahora procederemos a validar la disponibilidad de agenda en el sistema para programar la instalación 📅🛠️.
+
+Antes de continuar con la gestión, haremos una rápida validación sobre cómo está conformado tu domicilio...
+
+Por favor me podrías confirmar si el tipo de predio es:
+
+● Una casa de barrio 🏠
+● Un conjunto residencial 🏘️
+● Un edificio 🏬
+● Un centro comercial 🏢
+
+Además: 
+📏 ¿Cuántos pisos tiene el predio? 
+⚡ ¿Cuenta con un solo contador de energía para todo el lugar o son contadores individuales?</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('noana')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Cancelar por Decos</h4>
+                    <p id="Cande">Lamentamos que no hayas aceptado el valor del deco adicional. En este caso, es necesario corregir la oferta registrada en la solicitud, por lo tanto, la orden de instalación será cancelada ❌.
+
+Si deseas continuar con el proceso, puedes reingresar tu pedido contactando a:
+
+⦁ 👨‍💻 con tu asesor comercial de confianza
+⦁ ☎️ Línea nacional: 018000911008 
+⦁ 💬 WhatsApp 3152333333, opción 4 – Ventas 
+⦁ 🏢 O visitando un Centro de Experiencia Movistar
+</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('Cande')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseEich" aria-expanded="false" aria-controls="collapseEich">
+                  VALIDACIÓN DE OFERTA MENOS DECO
+                </button>
+              </h2>
+              <div id="collapseEich" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>objeción decos</h4>
+                    <p id="Menosde">Notamos que estás solicitando xxxxx decos, pero en el sistema figura que contrataste xxxx.
+
+Para continuar con el proceso, necesitamos saber si estás de acuerdo en disminuir la cantidad de decos según lo registrado inicialmente 🧾📦.
+
+Por favor, confírmame para avanzar con la gestión 🙌.</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('Menosde')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Confirmación retirar deco</h4>
+                    <p id="retdec">Vamos a reducir la cantidad de decos en tu oferta a xxxx, según lo acordado 📦.
+
+Ahora procederemos a validar la disponibilidad de agenda en el sistema para programar la instalación 📅🛠️.
+
+Antes de continuar con la gestión, haremos una rápida validación sobre cómo está conformado tu domicilio...
+
+Por favor me podrías confirmar si el tipo de predio es:
+
+● Una casa de barrio 🏠
+● Un conjunto residencial 🏘️
+● Un edificio 🏬
+● Un centro comercial 🏢
+
+Además: 
+📏 ¿Cuántos pisos tiene el predio? 
+⚡ ¿Cuenta con un solo contador de energía para todo el lugar o son contadores individuales?
+</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('retdec')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>No Retirar Decos</h4>
+                    <p id="nomoder">De acuerdo con lo informado, mantendremos la cantidad de decos contratados en la oferta inicial, sin realizar cambios 📦.
+
+Ahora procederemos a validar la disponibilidad de agenda en el sistema para programar la instalación 📅🛠️.
+
+Antes de continuar con la gestión, haremos una rápida validación sobre cómo está conformado tu domicilio...
+
+Por favor me podrías confirmar si el tipo de predio es:
+
+● Una casa de barrio 🏠
+● Un conjunto residencial 🏘️
+● Un edificio 🏬
+● Un centro comercial 🏢
+
+Además: 
+📏 ¿Cuántos pisos tiene el predio? 
+⚡ ¿Cuenta con un solo contador de energía para todo el lugar o son contadores individuales?
+</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('nomoder')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Cancelar por menos Decos</h4>
+                    <p id="Cande">Sr(a) De acuerdo a lo informado no modificaremos los decos de la oferta inicial mantendremos el/los xxxx contratados. Ahora Procederemos a validar disponibilidad de agenda en sistema.</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('Cande')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+                  AGENDAR CITA
+                </button>
+              </h2>
+              <div id="collapseNine" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+
+
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Ofrecer Disponibilidad Agenda</h4>
+                    <p id="dipoag">
+                      Te ofrecemos disponibilidad para: 📅<input type="date" id="fe" class="form-control col-md-1"> en
+                      la
+                      franja
+                      <input class="form-check-input" type="checkbox" value="" id="btncheck1" checked>
+                     AM: 7:00 a.m. - 12:00 p.m. o
+                      <input class="form-check-input" type="checkbox" value="" id="btncheck2" checked>
+                     PM: 12:00 p.m. - 7:00 p.m.  
+
+                    (CONJUNTOS) <input class="form-check-input" type="checkbox" value=""  id="btncheck3">
+                     PM: 12:00 p.m. - 4:00 p.m.  
+Por favor, confírmame cuál prefieres para agendar tu cita 🛠️.
+
+                      <br><br>Además, si deseas, puedes agregar un número de contacto adicional para la instalación. Solo necesito: <br>
+⦁	📞 Número de contacto 
+⦁	👤 Nombre y parentesco con el titular
+                    </p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('dipoag')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Confirmar Agenda</h4>
+                    <p id="ConfAg">Gracias por la espera, Le confirmo su cita ha sido agendada para el día XXXXX en la franja XX.</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('ConfAg')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>casa o Conjunto</h4>
+                    <p id="casa">¿Me podrías confirmar si esta dirección pertenece a un conjunto residencial o un edificio que cuente con normativas de propiedad horizontal y/o restricción horaria?
+                    </p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('casa')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Conjuntos Fines de semana</h4>
+                    <p id="PJ">¡Gracias por tu comprensión! 😊 Por política de conjuntos cerrados, las direcciones que requieren permiso de administración no pueden ser agendadas en las siguientes franjas: 🚫 Sábado PM, Domingo o Feriados.
+
+Para evitar inconvenientes, te recomendamos elegir un día hábil entre semana 📅, donde podamos garantizar el acceso y realizar la instalación sin contratiempos 🛠️.
+
+¿Te gustaría que revisemos disponibilidad para los próximos días hábiles? Estoy aquí para ayudarte 🙌.</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('PJ')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4> No acepta la fecha disponible en sistema</h4>
+                    <p id="CanAg">Lamentamos que no hayas aceptado la fecha disponible en el sistema para la instalación 📅.
+
+Por esta razón, procederemos a cancelar la orden de instalación ❌.
+
+Si deseas continuar con el proceso, puedes reingresar tu pedido contactando a:
+
+⦁ 👨‍💻 con tu asesor comercial de confianza
+⦁ ☎️ Línea nacional: 018000911008 
+⦁ 💬 WhatsApp 3152333333, opción 4 – Ventas 
+⦁ 🏢 O visitando un Centro de Experiencia Movistar
+                    </p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('CanAg')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+        
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseoneEleven" aria-expanded="false" aria-controls="collapseoneEleven">
+                  COMPROMISO DE LLAMADAS
+                </button>
+              </h2>
+              <div id="collapseoneEleven" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Preguntar por disponibilidad</h4>
+                    <p id="Predis">
+                      No te preocupes Sr(a) entendemos que puedes estar ocupado en estos momentos, Pero si gustas podemos programarte una llamada Tú escoges el dia, y ya me indicarías a qué hora (Recuerda que debe ser entre las 7:00 a.m y las 7:30 p.m)<br>¿Me confirmas por favor?</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('Predis')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Preguntar por disponibilidad</h4>
+                    <p id="Predis21">
+📞 ¿Te gustaría que agendemos una llamada contigo?<br>
+Esta llamada será únicamente para confirmar tu decisión y programar la instalación del servicio.<br>
+Mientras tanto, puedes validar la información comercial a través de:<br>
+⦁ 👨‍💻 con tu asesor comercial de confianza
+⦁ ☎️ Línea nacional: 018000911008 
+⦁ 💬 WhatsApp 3152333333, opción 4 – Ventas 
+⦁ 🏢 O visitando un Centro de Experiencia Movistar
+<br>
+📅 Tú eliges el día de la llamada, y solo necesito que me indiques la hora que prefieres (entre 7:00 a.m. y 7:30 p.m.)<br> 
+¡Quedo atento a tu confirmación! 😊
+</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('Predis21')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Realizar Compromiso de Llamada</h4>
+                    <p id="Comprsf">Muy amable por la información, procederemos a programarte la llamada para el dia
+                      <input type="datetime-local" class="form-control" id="Fechas" aria-label="Fecha Agendamiento">
+                      📲 Gracias por utilizar nuestro chat de Movistar. Ten en cuenta que para cualquier duda te puedes
+                      comunicar a la línea nacional 018000911008 o al chat de WhatsApp 3152333333. Recuerda que te
+                      atendió XXXXX. Que tengas un excelente Dia. 👋
+                    </p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('Comprsf')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseoneEich" aria-expanded="false" aria-controls="collapseoneEich">
+                  OTROS SCRIPTS
+                </button>
+              </h2>
+              <div id="collapseoneEich" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Precios</h4>
+                    <p id="Prec">Para información de precio se puede comunicar a nuestros canales de comunicación 018000911008 o al chat de WhatsApp 3152333333 opción 4-Ventas, o un centro de experiencia Movistar para obtener información comercial de su oferta, si desea nos podemos comunicar después para confirmar su decisión</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('Prec')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Solicitar un momento</h4>
+                    <p id="moment">Sr(a) Permítame un momento en línea por favor…</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('moment')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>En LINEA</h4>
+                    <p id="lin">¿Aún te encuentras en línea?</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('lin')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Inconsistencia objecion</h4>
+                    <p id="incsa">Comprendemos tu molestia y agradecemos que nos hayas señalado la inconsistencia en tu orden a través de este chat. sin embargo Debido a ello, el sistema nos solicita reprogramar el servicio.<br>
+📅 Te recordamos que la disponibilidad sigue siendo en los días y jornadas que te mencionamos anteriormente.<br>
+Por favor, indícanos cuál prefieres para agendar nuevamente.<br> 
+😊 ¡Estamos aquí para ayudarte!</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('incsa')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Solicita el servicio con TV </h4>
+                    <p id="inco100">Comprendo tu interés en agregar TV. Te explico: una vez el servicio está registrado en nuestro sistema no es posible modificarlo antes de la instalación. Para que disfrutes de TV en el plan te ofrecemos dos alternativas:
+
+1. Cancelar la solicitud actual y contratar nuevamente el servicio incluyendo TV desde el inicio. Esta opción asegura que se instale directamente el plan completo al mismo tiempo desde un inicio, aunque implica reiniciar el proceso desde cero y puede tardar un poco más.
+
+2. Continuar con la instalación del servicio actual y después de que esté activo, solicitar el empaquetamiento con TV. Esta opción suele ser más práctica y rápida, porque permite que disfrutes de tu servicio de internet y se instale sin demoras además de que luego se amplíe fácilmente con TV.
+
+De esta manera puedes elegir la alternativa que mejor se ajuste a tus necesidades, y nosotros te acompañamos en todo el proceso para que disfrutes tu servicio lo antes posible.</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('inco100')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Inconsistencia plan duo vs BA</h4>
+                    <p id="incoDUEP">Entendemos que no solicitaste el servicio de telefonía 📞, pero gracias a los descuentos y promociones aplicados 🎁 en tu servicio, no es posible modificarlo antes de la instalación.<br>
+Una vez esté todo instalado ✅, podrás ajustar el plan según tus necesidades. Queremos que tengas una experiencia cómoda y a tu medida.<br>
+¿Nos confirmas si deseas continuar con el servicio? 🤝 Estamos aquí para ayudarte en lo que necesites 🙌.</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('incoDUEP')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Inconsistencia plan TRIO (SIN TELEFONIA)</h4>
+                    <p id="obprof">Entendemos que la telefonía fija puede no ser un servicio que necesites 📞, pero nuestros planes vienen en tres opciones:<br>
+	🌐 NAKED: solo internet
+
+	🔗 DÚO: internet + telefonía
+
+	📺 TRIO: internet + telefonía + TV<br>
+
+La línea telefónica siempre está incluida en los planes que la contemplan 🧾, y Movistar la ofrece para que el titular la use cuando lo necesite. La instalación del equipo telefónico es opcional 🛠️—tú decides si lo quieres instalar o no.<br>
+
+Además, este servicio no incrementa el valor de tu factura 💰. El precio se mantiene tal como te lo indicó tu asesor comercial ✅.<br>
+
+¿Nos confirmas si deseas continuar con el servicio? Estamos aquí para ayudarte en lo que necesites 🤗.</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('obprof')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Movistar TV (9 canales)</h4>
+                    <p id="mvt9">📺 ¿Qué es Movistar TV App?
+
+Es una plataforma de televisión en línea que te permite disfrutar de 9 canales nacionales en vivo desde tu celular, tablet, computador o Smart TV.
+
+
+💥 Lo mejor: ¡viene incluido como beneficio exclusivo por ser cliente Movistar, sin costo adicional!
+
+
+✅ Si estás de acuerdo, confirmamos tu aceptación del plan completo y activamos todos los beneficios disponibles.	
+                    </p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('mvt9')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Movistar TV (74 canales)</h4>
+                    <p id="mvt74">📺 ¿Qué es Movistar TV App?
+
+Es una plataforma de televisión en línea que te permite disfrutar de 74 canales nacionales en vivo desde tu celular, Tablet, computador o Smart TV.
+
+
+💥 Lo mejor: aunque tiene un valor adicional, ya está incluido en el precio total informado por tu asesor comercial, así que no pagarás nada extra fuera de lo acordado.
+
+✅ Si estás de acuerdo, confirmamos tu aceptación del plan completo y activamos todos los beneficios disponibles.</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('mvt74')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+            
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Cancelacion otro Operador </h4>
+                    <p id="obcaope">Antes que nada, te pedimos disculpas por la confusión. Queremos aclararte que ningún asesor de Movistar está autorizado para realizar cancelaciones con otros operadores 📵.<br>
+Cada operador maneja sus propias cláusulas de permanencia, usualmente de 12 meses 📅, por lo que este tipo de trámites debe ser gestionado directamente por el titular del servicio 🧾.<br>
+Es distinto si el asesor, como persona natural, te apoya para agilizar el proceso, pero como representante de Movistar no puede realizarlo formalmente 🙅‍♂️.<br>
+Lo mejor es que te comuniques con tu operador actual o con tu asesor para confirmar que la cancelación esté en curso ✅.<br>
+Si lo deseas, podemos agendar el servicio mientras verificas esta información 📲. ¡Estamos aquí para ayudarte!</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('obcaope')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>Activar APP</h4>
+                    <p id="ActM">Las App Stream que solicito se activan por la aplicación Mi Movistar con el correo electrónico, le llegara un correo con las instrucciones para la activación del servicio.</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('ActM')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseonenine" aria-expanded="false" aria-controls="collapseoneEich">
+                  SCRIPTS PARA TIPIFICAR
+                </button>
+              </h2>
+              <div id="collapseonenine" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+
+
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>PLAN</h4>
+                    <p id="AGPLAN">
+                      PLAN SOLICITADO POR CLIENTE
+                      <select class="form-select my-1 mr-sm-2 " id="planUsuario">
+                      <option value="" disabled selected></option>
+                        <option>BA</option>
+                        <option>DUO</option>
+                        <option>TRIO</option>
+                        <option>DUO (BA + TV)</option>
+                        <option>APPS_STREAM</option>
+                        <option>100 MB ADICIONALES</option>
+                        <option>NO SOLICITO EL SERVICIO</option>
+                        <option>SI SOLICITO EL SERVICIO</option>
+                        <option>MAS DECOS</option>
+                        <option>CANCELA OTRO OPERADOR</option>
+                      </select>
+                    <p id="cplan">
+                     PLAN EN SISTEMA
+                      <select class="form-select my-1 mr-sm-2" id="planSistema">
+                        
+  <option value="" disabled selected></option>
+
+                       
+                        
+                     
+                      </select>
+                        TIPO DE PROCESO
+                      <select class="form-select my-1 mr-sm-2" id="Motivoqa">
+                        <option value="" disabled selected></option>
+                        <option>CANCELAR</option>
+                        <option>AGENDAR</option>
+                      </select>
+
+                     
+                    </p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('AGPLAN')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+              
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>OFERTA CORRECTA</h4>
+                    <p id="ssf">Se describe el servicio a instalar indica que es correcto y que se encuentra a la espera del servicio</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('ssf')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+
+                <div class="row accordion-body d-flex justify-content-between align-items-center">
+                  <div class="col-10">
+                    <h4>DIRECCION Y OFERTA CORRECTA</h4>
+                    <p id="dircoser">Se valida dirección y servicio todo esta correcto indica que se encuentra a la espera del servicio</p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="CopiarPlantilla('dircoser')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+<div class="offcanvas offcanvas-start trans" tabindex="-1" id="offcanvasWithBothOptions1" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Plantillas</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" id="close1" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+
+    <h4>Direccion</h4>
+          <input type="text" id="diras" class="form-control mb-3" placeholder="Direccion o CTO Sugerida...">
+             <div class="accordion" id="accordionExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingOne">
+      <button class="accordion-button " type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        NO EXISTE RED
+      </button>
+    </h2>
+    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+                       <div class="col-10">
+                    <h4>NO EXISTE RED</h4>
+                    <p id="nohay">Se valida archivos HHPP, se evidencia que la dirección xxxx no cuenta con cobertura para la instalación
+                    </p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="plantillasqt('nohay')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+      </div>
+    </div>
+    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample"> 
+      <div class="accordion-body">
+                       <div class="col-10">
+                    <h4>NO EXISTE RED (COMENTARIO TECNICO)</h4>
+                    <p id="COMENTAE">se valida orden suspendida en mas de 2 ocasiones se cancela con autorización de Supervisor se deja comentario de técnico 
+                    </p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="plantillasqt('COMENTAE')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+      </div>
+    </div>
+
+    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+                       <div class="col-10">
+                    <h4>NO EXISTE RED (Orden anterior Cancelada)</h4>
+                    <p id="Orderd">se valida orden anterior xxxx cancelada con los mismos recursos
+                    </p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="plantillasqt('Orderd')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+      </div>
+    </div>
+    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+                       <div class="col-10">
+                    <h4>NO EXISTE RED (Falta PC)</h4>
+                    <p id="DirEd">Se valida archivos HHPP, se evidencia que la dirección xxxx no cuenta con cobertura para la instalación ya que es necesario una PC interna se valida comentarios y soporte fotográfico del técnico
+                    </p>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-success" onclick="plantillasqt('DirEd')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                      </svg>
+                    </button>
+                  </div>
+      </div>
+    </div>
+
+  </div>
+</div>       
+
+  </div>
+</div>
+    </div>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="dist/js/funciones.js"></script>
+    <script src="dist/js/sweetalert2@11.js"></script>
+</body>
+
+</html>
