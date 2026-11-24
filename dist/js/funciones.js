@@ -1242,7 +1242,7 @@ function CopiarChat() {
 
 const camposllenos=contiene(MotUsuario,"XXXX") ? "0" : "1";
 
-if (NumT && NomT || inten) {
+if (NumT && NomT || valor1 == "3" || inten ) {
   
 
 
