@@ -91,16 +91,7 @@ seleccion = "otros"
   }
 
 
-if (["#exampleDataList","#direrr","#Motivoqa"].some((selector) => e.target.matches(selector))) {
 
-
-if (e.target.matches("#Motivoqa")) {
-  if (Motivoqa.value==="CANCELAR") {
-      alertaSencilla("sencilla","YA VALIDASTE INVENTARIO","Quieres un critico?","question")
-    }}else {
-  alertaSencilla("sencilla","YA VALIDASTE INVENTARIO","Quieres un critico?","question")
-}
-}
 
 
 
@@ -259,10 +250,33 @@ if (tecn) {
 
 
 function handleMotivo() {
-
-  toggleDisplay(
-    ["#footer1", "#footer2", "#Motiv1","#plan12","#Formato","#AgIncu"], "none");
-  toggleDisplay(["#footer", "#Motiv",], "block");
+   setBackgroundColor("#1392F1");
+      toggleDisplay(
+        [
+          "#MotivoTec",
+          "#Musuariod",
+          "#fecha",
+          "#MoQuiebre",
+          "#tec",
+          "#MoQuiebre1",
+          "#Fecgaws",
+          "#Cdire",
+          "#TipoPredio",
+          "#direco",
+          "#footer1", 
+          "#footer2", 
+          "#Motiv1",
+          "#plan12",
+          "#Formato",
+          "#AgIncu"
+        ],
+        "none"
+      );
+      toggleDisplay(
+        ["#Titular", "#intentos", "#Formatod", "#Motiv", "#cambio","#footer"],
+        "block"
+      );
+      setInnerHTML("#inte", "Quiebres Técnicos");
 
   setInnerHTML("#exampleModalLabel", "Tipificar LLamadas")
 
@@ -314,39 +328,38 @@ function handleMotivo() {
         setInnerHTML("#Musuario", "Se registra agenda tentativa para proceder a suspender nuevamente la orden");
         document.querySelector("#FD").checked = false;
         break;
-    default:
-      setBackgroundColor("#1392F1");
-      toggleDisplay(
-        [
-          "#MotivoTec",
-          "#Musuariod",
-          "#fecha",
-          "#MoQuiebre",
-          "#tec",
-          "#MoQuiebre1",
-          "#Fecgaws",
-          "#Cdire",
-          "#TipoPredio",
-          "#direco",
-          "#TipoPredio"
-        ],
-        "none"
-      );
-      toggleDisplay(
-        ["#Titular", "#intentos", "#Formatod", "#Motiv", "#cambio"],
-        "block"
-      );
-      setInnerHTML("#inte", "Quiebres Técnicos");
-      break;
   }
 }
 
 function handleMotivoChat() {
  
+  setBackgroundColor("#1392F1");
+      toggleDisplay(
+        [
+          "#MotivoTec",
+          "#fecha",
+          "#MoQuiebre",
+          "#tec",
+          "#MoQuiebre1",
+          "#Motiv",
+          "#footer",
+          "#Fecgaws",
+          "#Cdire",
+          "#footer2",
+          "#TipoPredio",
+          "#direco", 
+          "#Formato",
+          "#AgIncu"
+        ],
+        "none"
+      );
 
+      setInnerHTML("#inte", "Quiebres Técnicos");
+      toggleDisplay(
+        ["#Titular", "#Musuariod", "#intentos", "#Formatod", "#footer1", "#Motiv1", "#cambio"],
+        "block"
+      );
   setInnerHTML("#exampleModalLabel", "Tipificar Chat")
-  toggleDisplay(["#footer", "#footer2", "#Motiv","#Formato","#AgIncu"], "none");
-  toggleDisplay(["#footer1", "#Motiv1"], "block");
   let Mo1 = document.getElementById("Motivo1").value
   setInnerHTML("#Musuario", "indica que");
   switch (Mo1) {
@@ -394,34 +407,6 @@ function handleMotivoChat() {
         "none"
       );
       toggleDisplay(["#Titular", "#Fecgaws"], "block");
-      break;
-
-    default:
-      setBackgroundColor("#1392F1");
-      toggleDisplay(
-        [
-          "#MotivoTec",
-          "#fecha",
-          "#MoQuiebre",
-          "#tec",
-          "#MoQuiebre1",
-          "#Motiv",
-          "#footer",
-          "#Fecgaws",
-          "#Cdire",
-          "#footer2",
-          "#TipoPredio",
-          "#direco",
-        ],
-        "none"
-      );
-
-      setInnerHTML("#inte", "Quiebres Técnicos");
-      toggleDisplay(
-        ["#Titular", "#Musuariod", "#intentos", "#Formatod", "#footer1", "#Motiv1", "#cambio"],
-        "block"
-      );
-
       break;
 
   }
@@ -563,8 +548,13 @@ texto = `QT - ${mq1} ${MotTecnico} ${firma}.`;
       manejarSuspension();
     
   } else {
-    // Corregimos la obtención del número adicional
-    const contador = 1; // Asegúrate de que el contador está inicializado en tu código
+ 
+
+     
+
+      
+    
+    const contador = 1;
     const NumAdicionalID = `NumAdicional${contador}`; // Formamos el ID dinámico
     const NumTa = document.getElementById(NumAdicionalID)
       ? document.getElementById(NumAdicionalID).value
@@ -574,9 +564,9 @@ texto = `QT - ${mq1} ${MotTecnico} ${firma}.`;
     switch (valor) {
       case "1":
         if (Fecha) {
-if (incumplimiento != "1") {
+  if (incumplimiento != "1") {
   texto += `${incumplimiento}`
-}
+  }
           texto += `Se marca al número ${NumT} titular ${NomT} ${MotUsuario} `;
 
           if (NumTa) {
@@ -623,11 +613,11 @@ if (incumplimiento != "1") {
         break;
       case "2":
         if (mq) {
-if (mq=="RECURSOS MAL APROVISIONADOS") {
+  if (mq=="RECURSOS MAL APROVISIONADOS") {
   texto = "QT - "
-} else {
+  } else {
   texto = "QC - "
-}
+  }
 
           texto += `${mq} Se marca al número ${NumT} `;
           if (NumTa) {
@@ -735,11 +725,16 @@ if (mq=="RECURSOS MAL APROVISIONADOS") {
         break;
     }
   }
+  if (NumT && NomT || inten) {
   texto = texto.replaceAll(/[()?¿#:–]/g, "")
   copiarYAlertar(texto);
     if (aler) {
       alertaSencilla("sencilla",aler,"","info")
   }
+} else {
+    alertaSencilla("","Favor LLenar Campos Solicitados","Nombre y numero telefonico","info")
+}
+ 
 
 }
 
@@ -1239,13 +1234,16 @@ function CopiarChat() {
   const predio = document.getElementById("predio").value;
   const pisos = document.getElementById("Cantpi").value;
   const contadores = document.getElementById("Cantco").value;
+  const inten = document.getElementById("inten").checked;
+
   let texto = ""
   let aler = ""
 
 
 const camposllenos=contiene(MotUsuario,"XXXX") ? "0" : "1";
 
-
+if (NumT && NomT || inten) {
+  
 
 
   // Corregimos la obtención del número adicional
@@ -1372,8 +1370,9 @@ const camposllenos=contiene(MotUsuario,"XXXX") ? "0" : "1";
     alertaSencilla("","Favor LLenar Campos Solicitados","COLOCAR INFORMACION EN LAS XXXX","info")
   }
 
- 
-
+ } else {
+    alertaSencilla("","Favor LLenar Campos Solicitados","Nombre y numero telefonico","info")
+}
 
 }
 
@@ -2036,7 +2035,7 @@ let baseport
 
   const HBO = contiene(celda, "HBO") ? "HBO +" : "";
   const Paramount = contiene(celda, "Paramount") ? "Paramount +" : "";
- const movil = (contiene(celda, "Convergente") || contiene(celda, "Mtotal")) ? "Linea plan Pospago Móvil" : ""
+ const movil = (contiene(celda, "Convergente") || contiene(celda, "Mov ilim")) ? "Linea plan Pospago Móvil" : ""
 
 let servicios_incluidos
 
